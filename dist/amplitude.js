@@ -1631,7 +1631,19 @@ var AmplitudeCore = function () {
   	Play the song and set the playback rate to the playback
   	speed.
   */
-		_config2.default.active_song.play();
+		var playPromise = _config2.default.active_song.play();
+    
+// In browsers that don’t yet support this functionality,
+// playPromise won’t be defined.
+if (playPromise !== undefined) {
+  playPromise.then(function() {
+    // Automatic playback started!
+  }).catch(function(error) {
+    // Automatic playback failed.
+    // Show a UI element to let the user manually start playback.
+  });
+}
+
 		_config2.default.active_song.playbackRate = _config2.default.playback_speed;
 
 		/*
